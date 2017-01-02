@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,20 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-public class ListActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class ListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     static final int CREATE_NEW_ITEM = 1;
-    ArrayList<String> mStringArray = new ArrayList<String>(Arrays.asList("Along Came Polly", "There's something about Mary", "Cruel Intentions", "Intolerable Cruelty"));
-    private ArrayAdapter<String> mAdapter;
+    private static final String LISTFRAGMENT_TAG = "LFTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +34,8 @@ public class ListActivity extends AppCompatActivity
                 editIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivityForResult(editIntent, CREATE_NEW_ITEM);
 
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+/*                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
             }
         });
 
@@ -58,21 +48,14 @@ public class ListActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mStringArray);
-
-        ListView listView = (ListView) findViewById(R.id.listview);
-        listView.setAdapter(mAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class);
-                detailIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(detailIntent);
-            }
-        });
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(
+                            R.id.list_container,
+                            new MoviesFragment(),
+                            LISTFRAGMENT_TAG)
+                    .commit();
+        }
     }
 
     @Override
@@ -82,10 +65,10 @@ public class ListActivity extends AppCompatActivity
                 // Add returned item to list view adapter
                 String returnedResult = data.getData().toString();
                 Log.d("ListActivityLog", "Returned result: " + returnedResult);
-                mAdapter.setNotifyOnChange(true);
-                mAdapter.add(returnedResult);
-                TextView resultTV = (TextView) findViewById(R.id.list_tv);
-                resultTV.setText(returnedResult);
+/*                mAdapter.setNotifyOnChange(true);
+                mAdapter.add(returnedResult);*/
+/*                TextView resultTV = (TextView) findViewById(R.id.list_tv);
+                resultTV.setText(returnedResult);*/
             }
         }
     }
@@ -166,4 +149,6 @@ public class ListActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

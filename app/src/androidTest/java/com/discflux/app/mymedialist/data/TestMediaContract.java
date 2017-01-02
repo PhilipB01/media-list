@@ -35,10 +35,13 @@ public class TestMediaContract extends AndroidTestCase {
         assertNotNull("Error: Null Uri returned.  You must fill-in buildMediaLocation in " +
                         "MediaContract.",
                 mediaUri);
-        assertEquals("Error: Media location not properly appended to the end of the Uri",
+        assertEquals("Error: Media title not properly appended to the end of the Uri",
                 TEST_TITLE, mediaUri.getLastPathSegment());
         assertEquals("Error: Media location Uri doesn't match our expected result",
                 mediaUri.toString(),
                 "content://com.discflux.app.mymedialist/media/200/TheBigDeep");
+        assertEquals("Error: Media type doesn't match our expected result",
+                TEST_TYPE,
+                Integer.parseInt(mediaUri.getPathSegments().get(1)));
     }
 }

@@ -22,13 +22,14 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="New Entry"
+            android:text="The Godfather"
             android:layout_marginBottom="24dp"
             android:id="@+id/header_tv"
             android:layout_weight="0.00" />
@@ -44,37 +45,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Title"
-            android:id="@+id/title_tv"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/title_et"/>
+            android:text="Year"
+            android:id="@+id/date_tv"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Year"
-            android:id="@+id/date_tv"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:text="1962"
             android:id="@+id/date_et"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Author"
-            android:id="@+id/author_tv"/>
+            android:text="Director"
+            android:id="@+id/director_tv"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/author_et"/>
+            android:text="Francis Ford Coppola"
+            android:id="@+id/director_et"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Rating"
+            android:id="@+id/rating_tv"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="9.2"
+            android:id="@+id/rating_et"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -83,13 +87,27 @@
             android:text="Description"
             android:id="@+id/description_tv"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/description_et"
-            android:layout_weight="0.80" />
+            android:text="The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son. "
+            android:layout_weight="0.17" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rating_bar"
+            android:layout_weight="0.00" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Watched it?"
+            android:id="@+id/watched_check"
+            android:layout_weight="0.00"
+            android:checked="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,14 +116,14 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/save_button"
-                android:text="Save" />
+                android:id="@+id/trailer_button"
+                android:text="Play Trailer" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/cancel_button"
-                android:text="Cancel" />
+                android:id="@+id/watch_button"
+                android:text="Buy" />
 
         </LinearLayout>
 

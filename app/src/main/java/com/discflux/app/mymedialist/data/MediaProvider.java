@@ -72,7 +72,7 @@ public class MediaProvider extends ContentProvider {
         return mOpenHelper.getReadableDatabase().query(
                 MediaContract.MediaEntry.TABLE_NAME,
                 projection,
-                sMediaTitleSelection,
+                sMediaTypeSelection,
                 new String[]{Integer.toString(type)},
                 null,
                 null,
@@ -201,22 +201,22 @@ public class MediaProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
-        int rowsDeleted;
+        int rowsUpdated;
         // this makes delete all rows return the number of rows deleted
         if (selection == null) selection = "1";
 
         switch(match) {
             case MEDIA:
-                rowsDeleted = db.update(MediaContract.MediaEntry.TABLE_NAME, values, selection, selectionArgs);
+                rowsUpdated = db.update(MediaContract.MediaEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        if (rowsDeleted != 0) {
+        if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-        return rowsDeleted;
+        return rowsUpdated;
     }
 
     @Override

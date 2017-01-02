@@ -96,12 +96,23 @@ public class EditActivity extends AppCompatActivity {
         }
 
         // add a validation step to prevent duplicate titles
-        if (validateEntry(values))
+        if (validateEntry(values)) {
             this.getContentResolver().insert(MediaContract.MediaEntry.CONTENT_URI, values);
-        else
+            Cursor c = this.getContentResolver().query(MediaContract.MediaEntry.buildMediaType(type), null, null, null, null);
+            if (!c.moveToFirst()) {
+                Log.d("TAG", "Nothing in database");
+            } else {
+                while (c.moveToNext()) {
+                    Log.d("TAG", c.getString(c.getColumnIndex(MediaContract.MediaEntry.COLUMN_TITLE)));
+                }
+            }
+        }
+        else {
             Log.e(this.getClass().getSimpleName(), "Readding duplicate title/year to database!");
+        }
     }
 
+    // Prevents duplicates
     private Boolean validateEntry(ContentValues values) {
         String type = values.getAsString(MediaContract.MediaEntry.COLUMN_TYPE);
         String title = values.getAsString(MediaContract.MediaEntry.COLUMN_TITLE);

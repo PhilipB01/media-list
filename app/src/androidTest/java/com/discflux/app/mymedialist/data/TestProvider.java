@@ -283,14 +283,14 @@ public class TestProvider extends AndroidTestCase {
         // Register a content observer for our insert.  This time, directly with the content resolver
         com.discflux.app.mymedialist.data.TestUtilities.TestContentObserver tco = com.discflux.app.mymedialist.data.TestUtilities.getTestContentObserver();
         mContext.getContentResolver().registerContentObserver(MediaEntry.CONTENT_URI, true, tco);
-        Uri locationUri = mContext.getContentResolver().insert(MediaEntry.CONTENT_URI, testValues);
+        Uri uri = mContext.getContentResolver().insert(MediaEntry.CONTENT_URI, testValues);
 
         // Did our content observer get called?  Students:  If this fails, your insert location
         // isn't calling getContext().getContentResolver().notifyChange(uri, null);
         tco.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(tco);
 
-        long locationRowId = ContentUris.parseId(locationUri);
+        long locationRowId = ContentUris.parseId(uri);
 
         // Verify we got a row back.
         assertTrue(locationRowId != -1);
@@ -327,16 +327,21 @@ public class TestProvider extends AndroidTestCase {
         tco.waitForNotificationOrFail();
         mContext.getContentResolver().unregisterContentObserver(tco);
 
+        int type = testValues.getAsInteger(MediaEntry.COLUMN_TYPE);
+        assertTrue("Error test value type is not 100", type == 100);
+        Uri queryTypeUri = MediaContract.MediaEntry.buildMediaType(type);
+
+
         // A cursor is your primary interface to the query results.
         Cursor mediaCursor = mContext.getContentResolver().query(
-                MediaEntry.CONTENT_URI,  // Table to Query
+                queryTypeUri,  // Table to Query
                 null, // leaving "columns" null just returns all the columns.
                 null, // cols for "where" clause
                 null, // values for "where" clause
                 null // columns to group by
         );
 
-        com.discflux.app.mymedialist.data.TestUtilities.validateCursor("testInsertReadProvider. Error validating MediaEntry insert.",
+        com.discflux.app.mymedialist.data.TestUtilities.validateCursor("testInsertReadProvider. Error validating MediaEntry insert for Type 100.",
                 mediaCursor, mediaValues);
 
     }
